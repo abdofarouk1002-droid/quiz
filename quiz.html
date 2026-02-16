@@ -1,0 +1,720 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>اختبار النظريات الموسيقية 🎼</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .container {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            max-width: 900px;
+            width: 100%;
+            padding: 50px;
+            animation: slideIn 0.5s ease-out;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            border-bottom: 4px solid #667eea;
+            padding-bottom: 30px;
+        }
+
+        .header h1 {
+            color: #333;
+            font-size: 2.5em;
+            margin-bottom: 15px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .header p {
+            color: #666;
+            font-size: 1.2em;
+            margin-bottom: 10px;
+        }
+
+        .progress-container {
+            margin-bottom: 40px;
+        }
+
+        .progress-info {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 12px;
+            font-size: 0.95em;
+            color: #666;
+            font-weight: 600;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 12px;
+            background: #e0e0e0;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #667eea, #764ba2);
+            border-radius: 10px;
+            transition: width 0.3s ease;
+            box-shadow: 0 0 10px rgba(102, 126, 234, 0.5);
+        }
+
+        .question-container {
+            margin-bottom: 40px;
+            animation: fadeIn 0.4s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        .question-number {
+            color: #667eea;
+            font-weight: bold;
+            margin-bottom: 15px;
+            font-size: 0.95em;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .question-text {
+            font-size: 1.3em;
+            color: #333;
+            margin-bottom: 25px;
+            font-weight: 600;
+            line-height: 1.6;
+        }
+
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .option {
+            display: flex;
+            align-items: center;
+            padding: 18px 25px;
+            border: 2px solid #ddd;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: white;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .option::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            transition: left 0.5s;
+        }
+
+        .option:hover::before {
+            left: 100%;
+        }
+
+        .option:hover {
+            border-color: #667eea;
+            background: #f8f9ff;
+            transform: translateX(-5px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.2);
+        }
+
+        .option input[type="radio"] {
+            margin-left: 15px;
+            cursor: pointer;
+            width: 22px;
+            height: 22px;
+            accent-color: #667eea;
+        }
+
+        .option-text {
+            font-size: 1.1em;
+            color: #333;
+            flex: 1;
+        }
+
+        .option.selected {
+            border-color: #667eea;
+            background: linear-gradient(135deg, #f0f4ff, #f8f9ff);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.2);
+        }
+
+        .button-group {
+            display: flex;
+            gap: 20px;
+            justify-content: space-between;
+            margin-top: 45px;
+        }
+
+        button {
+            padding: 15px 35px;
+            font-size: 1.05em;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+        }
+
+        .btn-next {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            flex: 1;
+        }
+
+        .btn-next:hover:not(:disabled) {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 30px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-next:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .btn-prev {
+            background: #f0f0f0;
+            color: #333;
+            padding: 15px 25px;
+            border: 2px solid #ddd;
+        }
+
+        .btn-prev:hover:not(:disabled) {
+            background: #e0e0e0;
+            transform: translateY(-3px);
+        }
+
+        .btn-prev:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+        }
+
+        .result-container {
+            text-align: center;
+            animation: popIn 0.5s ease-out;
+        }
+
+        @keyframes popIn {
+            0% {
+                opacity: 0;
+                transform: scale(0.8);
+            }
+            100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        .score-circle {
+            width: 180px;
+            height: 180px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            border-radius: 50%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            margin: 0 auto 40px;
+            color: white;
+            box-shadow: 0 15px 40px rgba(102, 126, 234, 0.4);
+            animation: pulse 0.6s ease-out;
+        }
+
+        @keyframes pulse {
+            0% {
+                transform: scale(0.8);
+                opacity: 0;
+            }
+            100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        .score-number {
+            font-size: 3.5em;
+            font-weight: bold;
+        }
+
+        .score-total {
+            font-size: 1.3em;
+        }
+
+        .result-message {
+            font-size: 1.8em;
+            color: #333;
+            margin: 30px 0;
+            font-weight: bold;
+        }
+
+        .result-text {
+            color: #666;
+            font-size: 1.2em;
+            margin-bottom: 40px;
+            line-height: 1.6;
+        }
+
+        .emoji-large {
+            font-size: 4em;
+            margin: 30px 0;
+            animation: bounce 0.8s ease-out;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
+
+        .btn-restart {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 15px 50px;
+            font-size: 1.15em;
+        }
+
+        .btn-restart:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 30px rgba(102, 126, 234, 0.4);
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .percentage {
+            font-size: 1.5em;
+            color: #667eea;
+            margin-top: 10px;
+            font-weight: bold;
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                padding: 25px;
+            }
+
+            .header h1 {
+                font-size: 1.8em;
+            }
+
+            .question-text {
+                font-size: 1.1em;
+            }
+
+            .option-text {
+                font-size: 0.95em;
+            }
+
+            .button-group {
+                flex-direction: column-reverse;
+            }
+
+            .score-circle {
+                width: 140px;
+                height: 140px;
+            }
+
+            .score-number {
+                font-size: 2.5em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Quiz Container -->
+        <div id="quizContainer">
+            <!-- Header -->
+            <div class="header">
+                <h1>🎼 اختبار النظريات الموسيقية 🎶</h1>
+                <p>اختبر معرفتك بالموسيقى الكلاسيكية</p>
+            </div>
+
+            <!-- Progress -->
+            <div class="progress-container">
+                <div class="progress-info">
+                    <span id="progressText">السؤال 1 من 25</span>
+                    <span id="scoreInfo">✓ الإجابات: 0</span>
+                </div>
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progressFill"></div>
+                </div>
+            </div>
+
+            <!-- Question -->
+            <div class="question-container">
+                <div class="question-number" id="questionNumber"></div>
+                <div class="question-text" id="questionText"></div>
+                <div class="options" id="options"></div>
+            </div>
+
+            <!-- Buttons -->
+            <div class="button-group">
+                <button class="btn-next" id="nextBtn" onclick="nextQuestion()">السؤال التالي →</button>
+                <button class="btn-prev" id="prevBtn" onclick="previousQuestion()">← السؤال السابق</button>
+            </div>
+        </div>
+
+        <!-- Results Container -->
+        <div id="resultsContainer" class="hidden">
+            <div class="result-container">
+                <div class="emoji-large" id="resultEmoji"></div>
+                <div class="score-circle">
+                    <div class="score-number" id="finalScore"></div>
+                    <div class="score-total">من 25</div>
+                </div>
+                <div class="percentage" id="percentageScore"></div>
+                <div class="result-message" id="resultMessage"></div>
+                <div class="result-text" id="resultText"></div>
+                <button class="btn-restart" onclick="restartQuiz()">إعادة الامتحان 🔄</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const allQuestions = [
+            {
+                q: "ما الترتيب الصحيح لنغمات سلم دو الكبير؟",
+                options: ["A) دو ري مي صول فا لا سي", "B) دو ري مي فا صول لا سي", "C) دو مي ري فا صول لا سي"],
+                ans: "B"
+            },
+            {
+                q: "كم عدد أنصاف الأبعاد (نصف تون) في سلم دو الكبير؟",
+                options: ["A) 1", "B) 2", "C) 3"],
+                ans: "B"
+            },
+            {
+                q: "ما البعد بين مي و فا؟",
+                options: ["A) تون كامل", "B) تون ونصف", "C) نصف تون"],
+                ans: "C"
+            },
+            {
+                q: "ما البعد بين صول و لا؟",
+                options: ["A) نصف تون", "B) تون كامل", "C) تونان"],
+                ans: "B"
+            },
+            {
+                q: "ما النغمتان اللتان بينهما نصف تون؟",
+                options: ["A) دو–ري و فا–صول", "B) مي–فا و سي–دو", "C) ري–مي و لا–سي"],
+                ans: "B"
+            },
+            {
+                q: "كم عدد نغمات سلم دو الكبير؟",
+                options: ["A) 6", "B) 7", "C) 8"],
+                ans: "C"
+            },
+            {
+                q: "ما الصيغة الصحيحة لأبعاد السلم الكبير؟",
+                options: ["A) تون تون تون نصف تون تون تون نصف تون", "B) تون تون نصف تون تون تون تون نصف تون", "C) نصف تون تون تون نصف تون تون تون تون"],
+                ans: "B"
+            },
+            {
+                q: "ما المسافة بين دو و مي؟",
+                options: ["A) نصف تون", "B) تون كامل", "C) تونان"],
+                ans: "C"
+            },
+            {
+                q: "أي نغمة تأتي بعد فا مباشرة؟",
+                options: ["A) مي", "B) صول", "C) لا"],
+                ans: "B"
+            },
+            {
+                q: "المسافة من ري إلى فا تساوي:",
+                options: ["A) نصف تون", "B) تون ونصف", "C) تونان"],
+                ans: "B"
+            },
+            {
+                q: "أي نغمة لا تنتمي إلى سلم دو الكبير؟",
+                options: ["A) فا دييز", "B) سي", "C) صول"],
+                ans: "A"
+            },
+            {
+                q: "كم عدد التونات الكاملة في سلم دو الكبير؟",
+                options: ["A) 4", "B) 5", "C) 6"],
+                ans: "B"
+            },
+            {
+                q: "ما البعد بين سي و ري؟",
+                options: ["A) تون كامل", "B) تون ونصف", "C) نصف تون"],
+                ans: "B"
+            },
+            {
+                q: "ما النغمة التي تسبق سي مباشرة؟",
+                options: ["A) لا", "B) صول", "C) فا"],
+                ans: "A"
+            },
+            {
+                q: "ما البعد بين فا و سي؟",
+                options: ["A) 3 تونات", "B) 3.5 تون", "C) 4 تونات"],
+                ans: "A"
+            },
+            {
+                q: "يتكون المدرج الموسيقي من:",
+                options: ["A) أربعة خطوط", "B) خمسة خطوط", "C) ستة خطوط"],
+                ans: "B"
+            },
+            {
+                q: "عدد الفراغات في المدرج الموسيقي هو:",
+                options: ["A) 3", "B) 4", "C) 5"],
+                ans: "B"
+            },
+            {
+                q: "ما اسم المفتاح المستخدم لقراءة الأصوات الحادة؟",
+                options: ["A) مفتاح فا", "B) مفتاح دو", "C) مفتاح صول"],
+                ans: "C"
+            },
+            {
+                q: "في مفتاح صول، ما النغمة الموجودة على الخط الثاني؟",
+                options: ["A) دو", "B) صول", "C) ري"],
+                ans: "B"
+            },
+            {
+                q: "في مفتاح صول، ماذا يمثل الفراغ الأول؟",
+                options: ["A) فا", "B) مي", "C) ري"],
+                ans: "A"
+            },
+            {
+                q: "خطوط مفتاح صول تمثل النغمات:",
+                options: ["A) مي صول سي ري فا", "B) فا لا دو مي صول", "C) صول سي ري فا لا"],
+                ans: "A"
+            },
+            {
+                q: "فراغات مفتاح صول تمثل النغمات:",
+                options: ["A) فا لا دو مي", "B) مي صول سي ري", "C) دو ري مي فا"],
+                ans: "A"
+            },
+            {
+                q: "عند ارتفاع النغمة على المدرج يصبح الصوت:",
+                options: ["A) أغلظ", "B) أحد", "C) أبطأ"],
+                ans: "B"
+            },
+            {
+                q: "عند انخفاض النغمة على المدرج يصبح الصوت:",
+                options: ["A) أحد", "B) أسرع", "C) أغلظ"],
+                ans: "C"
+            },
+            {
+                q: "يُستخدم الخط الإضافي من أجل:",
+                options: ["A) الزينة", "B) نغمات خارج المدرج", "C) تحديد الإيقاع"],
+                ans: "B"
+            }
+        ];
+
+        let questions = [];
+        let currentQuestion = 0;
+        let score = 0;
+        let answers = new Array(25).fill(null);
+
+        function shuffleArray(array) {
+            const newArray = [...array];
+            for (let i = newArray.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [newArray[i], newArray[j]] = [newArray[j], newArray[i]];
+            }
+            return newArray;
+        }
+
+        function shuffleQuestions() {
+            questions = shuffleArray(allQuestions);
+        }
+
+        function displayQuestion() {
+            const q = questions[currentQuestion];
+            document.getElementById('questionNumber').textContent = `السؤال ${currentQuestion + 1}`;
+            document.getElementById('questionText').textContent = q.q;
+
+            const shuffledOptions = shuffleArray(q.options);
+            const optionsDiv = document.getElementById('options');
+            optionsDiv.innerHTML = '';
+
+            shuffledOptions.forEach((option, index) => {
+                const label = document.createElement('label');
+                label.className = 'option';
+                if (answers[currentQuestion] === option) {
+                    label.classList.add('selected');
+                }
+
+                const input = document.createElement('input');
+                input.type = 'radio';
+                input.name = 'answer';
+                input.value = option;
+                input.checked = answers[currentQuestion] === option;
+
+                const span = document.createElement('span');
+                span.className = 'option-text';
+                span.textContent = option;
+
+                label.appendChild(span);
+                label.appendChild(input);
+                optionsDiv.appendChild(label);
+
+                input.addEventListener('change', function() {
+                    answers[currentQuestion] = this.value;
+                    document.querySelectorAll('.option').forEach(opt => opt.classList.remove('selected'));
+                    label.classList.add('selected');
+                });
+            });
+
+            // Update progress
+            const progress = ((currentQuestion + 1) / 25) * 100;
+            document.getElementById('progressFill').style.width = progress + '%';
+            document.getElementById('progressText').textContent = `السؤال ${currentQuestion + 1} من 25`;
+
+            // Update buttons
+            document.getElementById('prevBtn').disabled = currentQuestion === 0;
+            if (currentQuestion === 24) {
+                document.getElementById('nextBtn').textContent = 'إنهاء الامتحان ✓';
+            } else {
+                document.getElementById('nextBtn').textContent = 'السؤال التالي →';
+            }
+
+            // Count correct answers so far
+            let correctCount = 0;
+            for (let i = 0; i <= currentQuestion; i++) {
+                if (answers[i] !== null) {
+                    const correctAnswer = allQuestions.find(q => q.q === questions[i].q).ans;
+                    if (answers[i].startsWith(correctAnswer)) {
+                        correctCount++;
+                    }
+                }
+            }
+            document.getElementById('scoreInfo').textContent = `✓ الإجابات: ${correctCount}`;
+        }
+
+        function nextQuestion() {
+            if (currentQuestion < 24) {
+                currentQuestion++;
+                displayQuestion();
+            } else {
+                finishQuiz();
+            }
+        }
+
+        function previousQuestion() {
+            if (currentQuestion > 0) {
+                currentQuestion--;
+                displayQuestion();
+            }
+        }
+
+        function finishQuiz() {
+            score = 0;
+            for (let i = 0; i < 25; i++) {
+                if (answers[i] !== null) {
+                    const correctAnswer = allQuestions.find(q => q.q === questions[i].q).ans;
+                    if (answers[i].startsWith(correctAnswer)) {
+                        score++;
+                    }
+                }
+            }
+
+            showResults();
+        }
+
+        function showResults() {
+            document.getElementById('quizContainer').classList.add('hidden');
+            document.getElementById('resultsContainer').classList.remove('hidden');
+
+            const percentage = Math.round((score / 25) * 100);
+            document.getElementById('finalScore').textContent = score;
+            document.getElementById('percentageScore').textContent = `${percentage}%`;
+
+            let message, emoji, className;
+            if (score === 25) {
+                message = 'أداء ممتاز! 🌟';
+                emoji = '🎵';
+                className = 'score-excellent';
+                document.getElementById('resultText').textContent = 'لديك إتقان رائع للنظريات الموسيقية! أنت موسيقار حقيقي!';
+            } else if (score >= 20) {
+                message = 'نتيجة ممتازة! 👏';
+                emoji = '🎼';
+                className = 'score-good';
+                document.getElementById('resultText').textContent = 'أنت متفوق جداً في النظريات الموسيقية!';
+            } else if (score >= 18) {
+                message = 'نتيجة جيدة جداً! 👌';
+                emoji = '🎹';
+                className = 'score-good';
+                document.getElementById('resultText').textContent = 'أنت بحاجة لمراجعة بسيطة فقط!';
+            } else if (score >= 12) {
+                message = 'نتيجة مقبولة 📘';
+                emoji = '🎸';
+                className = 'score-ok';
+                document.getElementById('resultText').textContent = 'حاول المراجعة أكثر لتحسين مستواك!';
+            } else {
+                message = 'تحتاج مراجعة 📚';
+                emoji = '🎤';
+                className = 'score-bad';
+                document.getElementById('resultText').textContent = 'يُنصح بمراجعة أساسيات الموسيقى ثم إعادة المحاولة!';
+            }
+
+            document.getElementById('resultMessage').textContent = message;
+            document.getElementById('resultMessage').className = 'result-message ' + className;
+            document.getElementById('resultEmoji').textContent = emoji;
+        }
+
+        function restartQuiz() {
+            currentQuestion = 0;
+            score = 0;
+            answers = new Array(25).fill(null);
+            shuffleQuestions();
+            document.getElementById('resultsContainer').classList.add('hidden');
+            document.getElementById('quizContainer').classList.remove('hidden');
+            displayQuestion();
+        }
+
+        // Initialize quiz
+        shuffleQuestions();
+        displayQuestion();
+    </script>
+</body>
+</html>
